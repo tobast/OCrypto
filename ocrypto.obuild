@@ -1,0 +1,11 @@
+name: OCrypto
+version: 0.0.1
+description: Some crypto algorithms in pure OCaml
+licence: GNU GPLv3
+authors: Théophile Bastian <contact@tobast.fr>
+obuild-ver: 1
+
+executable IMPL_OCRYPTO
+  main-is: test_blowfish.ml
+  src-dir: .
+  build-deps: bitv

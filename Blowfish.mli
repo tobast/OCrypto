@@ -16,10 +16,10 @@
     along with OCrypto.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
-type blowfishBoxes;; (* Declared in .ml, holds a blowfish subkey *)
+type blowfishBoxes (* Declared in .ml, holds a blowfish subkey *)
 
 val get_byte : Bitv.t -> int -> int
-val set_byte : Bitv.t -> int -> int
+val set_byte : Bitv.t -> int -> int -> unit
 
 (***
  * encrypts a single 64 bits blocks, splitted into two 32 bit blocks.
@@ -57,6 +57,5 @@ val decrypt : blowfishBoxes -> Bitv.t -> Bitv.t
  * (as a bitset).
  * initBoxes : key -> boxes
  ***)
-val initBoxes : Bitv.t -> blowfishBoxes
+val initBoxes : string -> blowfishBoxes
 
-val _defaultBlowfishBoxes : blowfishBoxes

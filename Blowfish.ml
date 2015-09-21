@@ -334,7 +334,8 @@ let _defaultBlowfishBoxes = (* Pi decimals. *)
 	;;
 	
 
-let initBoxes key =
+let initBoxes keyStr =
+	let key = bitv_of_string keyStr in
 	let boxes = _defaultBlowfishBoxes in
 	(* XOR key with P boxes *)
 	for box = 0 to 17 do
