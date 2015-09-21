@@ -1,0 +1,20 @@
+Checker of RC4_bitv
+=========
+
+Principle
+------
+
+This checker generates 100 random data/key files pairs, increasingly big from 8o to 4Mo, and then encrypts them with both OCrypto's implementation and an implementation found on Github.
+
+Usage
+-----
+
+$ ./makeTests.sh
+
+Dependancies
+-----
+
+- Python 3
+- Bash
+- C compilation environment (gcc, make)
+

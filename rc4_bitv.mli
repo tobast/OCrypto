@@ -19,7 +19,14 @@
 val get_byte : Bitv.t -> int -> int
 val set_byte : Bitv.t -> int -> int -> unit
 val bitv_of_string : string -> Bitv.t
-(*val bitv_to_hex : Bitv.t -> string*)
-val ksa : Bitv.t -> int array
+
+(*
+val ksa : string -> int array
 val encryptData : Bitv.t -> int array -> Bitv.t
-val encrypt : Bitv.t -> Bitv.t -> Bitv.t
+*)
+
+(***
+ * Encrypts/decrypts a Bitv.t of data using a given key.
+ * encrypt : data -> key -> encrypted_data
+ ***)
+val encrypt : Bitv.t -> string -> Bitv.t

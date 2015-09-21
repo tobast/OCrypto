@@ -1,0 +1,3 @@
+This implementation of RC4 is *NOT* part of OCrypto, but is used as a reference implementation for testing purposes. We do *NOT* claim that this implementation is correct, thus aiming to prove that OCrypto's implementation is correct, but only claim that if both implementations output the same result for a given input, on many tests, it is highly probable that both implementations are correct.
+
+These files were found at https://github.com/B-Con/crypto-algorithms

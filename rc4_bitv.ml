@@ -59,8 +59,8 @@ let ksa key =
 	let rec iter i j = match i with
 	| 256 -> ()
 	| i ->
-		let nj = (j + perm.(i) + (get_byte key (i mod ((Bitv.length key)/8))))
-			mod 256 in
+		let nj = (j + perm.(i) +
+			(int_of_char key.[i mod ((Bytes.length key))])) mod 256 in
 		swap i nj;
 		iter (i+1) nj
 	in
@@ -94,6 +94,10 @@ let encryptData data perm =
 
 	let _,i,j = genBytes 0 0 1536 in (* Ignore 1536 bytes *)
 	let xorbytes,i,j = genBytes i j ((Bitv.length data)/8) in
+	(* DEBUG CODE *)(*
+	for k=0 to ((Bitv.length data)/8)-1 do
+		print_int (get_byte xorbytes k); print_string " "
+	done;print_newline (); *)
 	Bitv.bw_xor data xorbytes;;
 
 let encrypt data key =
