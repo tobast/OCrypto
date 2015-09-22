@@ -84,9 +84,8 @@ let inplaceXor bv1 bv2 =
  * encrypts a 64 bits block just as encryptBlock, permuting p-boxes with
  * <pPerm>. Allows to easily encrypt and decrypt with the same function.
  ***)
-let encryptBlockWithPerm pPerm boxes inLeft inRight outLeft outRight =
-	assert (Bitv.length inLeft = 32 && Bitv.length inRight = 32 &&
-			Bitv.length outLeft= 32 && Bitv.length outRight= 32);
+let encryptBlockWithPerm pPerm boxes inLeft inRight =
+	assert (Bitv.length inLeft = 32 && Bitv.length inRight = 32);
 
 	let feistel input =
 		let left = bitvSum (boxes.sBoxes.(0).(get_byte input 0))
@@ -95,6 +94,7 @@ let encryptBlockWithPerm pPerm boxes inLeft inRight outLeft outRight =
 			(boxes.sBoxes.(3).(get_byte input 3))
 	in
 	
+	let outLeft = Bitv.create 32 false and outRight = Bitv.create 32 false in
 	Bitv.blit inLeft 0 outLeft 0 32;
 	Bitv.blit inRight 0 outRight 0 32;
 	(* 8 passes through P_{0..15} *)
@@ -108,8 +108,10 @@ let encryptBlockWithPerm pPerm boxes inLeft inRight outLeft outRight =
 	(* Passing through P_{16,17} and swapping *)
 	let tempRight = Bitv.bw_xor outLeft boxes.pBox.(pPerm 16) in
 	let tempLeft = Bitv.bw_xor outRight boxes.pBox.(pPerm 17) in
+	(*
 	Bitv.blit tempRight 0 outRight 0 (Bitv.length tempRight);
-	Bitv.blit tempLeft 0 outLeft 0 (Bitv.length tempLeft) ;;
+	Bitv.blit tempLeft 0 outLeft 0 (Bitv.length tempLeft) ;;*)
+	(tempLeft,tempRight);;
 
 let encryptBlock =
 	encryptBlockWithPerm (fun k -> k);;
@@ -135,7 +137,7 @@ let encryptWithCypher cypher boxes data =
 	for pos = 0 to (outLen/64)-1 do
 		let lBlock = extractBlock data (pos*64) 32
 		and rBlock = extractBlock data (pos*64+32) 32 in
-		cypher boxes lBlock rBlock lBlock rBlock;
+		let lBlock,rBlock = cypher boxes lBlock rBlock (*lBlock rBlock*) in
 		Bitv.blit lBlock 0 out (pos*64) 32;
 		Bitv.blit rBlock 0 out (pos*64+32) 32
 	done;
@@ -346,13 +348,13 @@ let initBoxes keyStr =
 	(* Iterate one time with boxes replacement *)
 	let lBox = Bitv.create 32 false and rBox = Bitv.create 32 false in
 	for box=0 to 8 do
-		encryptBlock boxes lBox rBox lBox rBox; (*TODO check this. *)
+		let lBox,rBox = encryptBlock boxes lBox rBox in
 		boxes.pBox.(2*box) <- lBox;
 		boxes.pBox.(2*box+1) <- rBox
 	done;
 	for outer=0 to 3 do
 		for inner=0 to 127 do
-			encryptBlock boxes lBox rBox lBox rBox; (*TODO check this. *)
+			let lBox,rBox = encryptBlock boxes lBox rBox in
 			boxes.sBoxes.(outer).(2*inner) <- lBox;
 			boxes.sBoxes.(outer).(2*inner+1) <- rBox
 		done

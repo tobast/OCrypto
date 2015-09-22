@@ -5,7 +5,7 @@ licence: GNU GPLv3
 authors: Théophile Bastian <contact@tobast.fr>
 obuild-ver: 1
 
-executable IMPL_BLOWFISH_OCRYPTO
+executable blowfish_checker
   main-is: test_blowfish.ml
   src-dir: .
   build-deps: bitv

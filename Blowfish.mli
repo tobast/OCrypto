@@ -28,7 +28,7 @@ val set_byte : Bitv.t -> int -> int -> unit
  * Uses boxes created by initBoxes.
  * encryptBlock : boxes -> leftBlock -> rightBlock -> outLeft -> outRight
  ***)
-val encryptBlock : blowfishBoxes -> Bitv.t -> Bitv.t -> Bitv.t -> Bitv.t -> unit
+val encryptBlock : blowfishBoxes -> Bitv.t -> Bitv.t -> Bitv.t * Bitv.t
 
 (***
  * decrypts a single 64 bits blocks, splitted into two 32 bit blocks.
@@ -37,7 +37,7 @@ val encryptBlock : blowfishBoxes -> Bitv.t -> Bitv.t -> Bitv.t -> Bitv.t -> unit
  * Uses boxes created by initBoxes.
  * encryptBlock : boxes -> leftBlock -> rightBlock -> outLeft -> outRight
  ***)
-val decryptBlock : blowfishBoxes -> Bitv.t -> Bitv.t -> Bitv.t -> Bitv.t -> unit
+val decryptBlock : blowfishBoxes -> Bitv.t -> Bitv.t -> Bitv.t * Bitv.t
 
 
 (***
